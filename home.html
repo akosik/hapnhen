@@ -1,0 +1,116 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWqWZ5pc7cLYlekvO-n2ZJt69ycQldNsg&language=en" type="text/javascript">
+    </script>
+  </head>
+  <body>
+    <button id="btn" type="button">CLICK ME!!!!</button>
+    <div id="topbar">
+      <form action="/findEvents" method="post">
+        <input type="text" name="search" value="Search..." onfocus="if (this.value == 'Search...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Search...';}">
+        <select>
+          <option value=".5 mile">.5 mile</option>
+          <option value="1 mile">1 mile</option>
+          <option value="2 mile">2 mile</option>
+          <option value="5 mile">5 mile</option>
+        </select>
+      </form>
+    </div>
+    <div>
+      <div id="map"></div>
+      <div id="eventList"></div>
+    </div>
+
+    <script>
+      navigator.geolocation.getCurrentPosition(showpos);
+      function showpos(pos) {
+
+      var myLatLng = {lat: pos.coords.latitude, lng: pos.coords.longitude};
+
+      var map = new google.maps.Map(document.getElementById('map'), {
+      center: myLatLng,
+      scrollwheel: true,
+      zoom: 4
+  });
+
+  // Create a marker and set its position.
+  var marker = new google.maps.Marker({
+    map: map,
+    position: myLatLng,
+    title: 'Hello World!'
+      });
+
+      map.addListener('dblclick', function( event ){
+      var eventlat = event.latLng.lat();
+      var eventlng = event.latLng.lng();
+      var eventLatLng = {lat: eventlat, lng: eventlng};
+      try {
+      eventMarker.setMap(null);
+      eventMarker = null;
+      }
+      catch (ReferenceError) {}
+      eventMarker = new google.maps.Marker({
+      map: map,
+      position: eventLatLng,
+      title: 'event'
+      });
+      });
+      }
+    </script>
+
+    <style>
+      html {
+      background: #00B88A repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+      }
+
+      input {
+      height: 10%;
+      width: 70%;
+      border: none;
+      border-color: transparent;
+      font-size: 60px;
+      }
+
+      input:focus{
+      outline: none;
+      }
+
+      #map {
+      height: 90%;
+      width: 70%;
+      float: left;
+      }
+
+      #eventList {
+      height: 90%;
+      width: 29%;
+      border: 5px solid black;
+      float: right;
+      }
+
+    </style>
+
+    <script>
+      var msg = {"title": "PARTY!", "location": {"type": "Point", "coordinates":[ 50, 51 ]}, "description": "description of event",
+      "eventType": "party", "startTime":"12","locationHint": "Library Lobby"};
+      var xhttp = new XMLHttpRequest();
+      var btn = document.getElementById("btn");
+      btn.onclick = function() {
+      xhttp.open("POST", "/createEvent", true);
+      xhttp.send(JSON.stringify(msg));
+      }
+
+      xhttp.onreadystatechange = function() {
+      if (xhttp.readyState == 4 && xhttp.status == 200) {
+      console.log(xhttp.responseText);
+      }
+      };
+    </script>
+
+  </body>
+</html>

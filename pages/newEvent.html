@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create Event</title>
+    <link rel="stylesheet" type="text/css" href="/css/newEvent.css">
+  </head>
+
+
+  <body>
+    <center>
+      <div id="h1">
+	<form>
+ 	  Title: <input type="text" name="title">
+ 	</form>
+      </div>
+      <div id="map">
+        <form>
+          Description: <br>
+          <input type="text" size="100%" name="comment"><br><br>
+          Type:<br>
+          <select name="mySelect" size="3">
+            <option>Free</option>
+            <option>Party</option>
+            <option>Warning</option>
+            <option>Food</option>
+            <option>Library</option>
+            <option>Misc</option>
+          </select>
+        </form>
+      </div>
+
+      <div class="btn"onclick="location.href='/pages/mapPage.html';">Submit Event</div>
+    </center>
+  </body>
+</html>

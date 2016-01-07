@@ -1,0 +1,8 @@
+{
+    "name": "hapnhen",
+    "version": "0.0.1",
+    "description": "event conglomeration for the accomodation of user you",
+    "dependencies": {
+        "mongodb": "2.1.2"
+    }
+}
