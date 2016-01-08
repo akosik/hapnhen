@@ -117,7 +117,7 @@ window.onload = function()
                 error: function(jqXHR,textStatus,errorThrown)
                 {
                     console.log(textStatus,errorThrown);
-                    alert("Your event could not be added.");
+                    alert("Error finding events.");
                 }
             });
     };

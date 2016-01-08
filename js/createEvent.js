@@ -17,11 +17,12 @@ btn.onclick = function()
         dataType: 'json',
         success: function(result,status)
         {
-          location.href='/pages/mapPage.html'
+            location.href='/pages/mapPage.html';
         },
         error: function(jqXHR,textStatus,errorThrown)
         {
-          console.log(textStatus,errorThrown)
+            console.log(textStatus,errorThrown);
+            alert("Your event could not be created at this time.");
         }
       });
   });
