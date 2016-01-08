@@ -36,10 +36,12 @@ function findEvents(response, data, db) {
     var params = JSON.parse(data);
     console.log(params);
 
+    var radius = params["radius"] / 3963.2;
+
     //basic search criteria
     var criteria = {"location":
                     {$geoWithin:
-                     { $center: [ [ params["lng"], params["lat"] ] , params["radius"] ] }
+                     { $centerSphere: [ [ params["lng"], params["lat"] ] , radius ] }
                     }
                    };
     //added search criteria
@@ -50,13 +52,13 @@ function findEvents(response, data, db) {
     //query db
     var cursor = db.collection('events').find(criteria).limit(20).toArray(function(err,docs) {
         if(err) {
-            response.writeHead(418, {"Content-Type": "text/plain"});
-            response.write("No events");
+            response.writeHead(418, {"Content-Type": "application/json"});
+            response.write(JSON.stringify({"Response":"No events"}));
             response.end();
         }
         else {
             var resText = {"hits": docs};
-            response.writeHead(200, {"Content-Type": "text/plain"});
+            response.writeHead(200, {"Content-Type": "application/json"});
             response.write(JSON.stringify(resText));
             response.end();
         }
@@ -75,7 +77,8 @@ function createEvent(response, data, db) {
 
         if (docs.length > 0) {
             //respond
-            response.writeHead(418, {"Content-Type": "text/plain"});
+            response.writeHead(418, {"Content-Type": "application/json"});
+            response.write(JSON.stringify({"Response":"The event already exists."}));
             response.end();
         }
 
@@ -84,12 +87,14 @@ function createEvent(response, data, db) {
                                                function(err, result) {
                                                    if (err) {
                                                        console.error(err);
-                                                       response.writeHead(418, {"Content-Type": "text/plain"});
+                                                       response.writeHead(418, {"Content-Type": "application/json"});
+                                                       response.write(JSON.stringify({"Response":"Error inserting event."}));
                                                        response.end();
                                                    }
                                                    else {
                                                        //respond
-                                                       response.writeHead(200, {"Content-Type": "text/plain"});
+                                                       response.writeHead(200, {"Content-Type": "application/json"});
+                                                       response.write(JSON.stringify({"Response":"Success!"}));
                                                        response.end();
                                                    }
                                                }
@@ -105,14 +110,16 @@ function deleteEvent(response, data, db) {
     db.collection('events').deleteOne( {"title": params["title"]},
                                             function(err, results) {
                                                 if (err) {
-                                                    response.writeHead(418, {"Content-Type": "text/plain"});
+                                                    response.writeHead(418, {"Content-Type": "application/json"});
+                                                    response.write(JSON.stringify({"Response":"Error deleting event"}));
                                                     response.end();
                                                 }
                                                 else {
                                                     console.log(results);
 
                                                     //respond
-                                                    response.writeHead(200, {"Content-Type": "text/plain"});
+                                                    response.writeHead(200, {"Content-Type": "application/json"});
+                                                    response.write(JSON.stringify({"Response":"Success!"}));
                                                     response.end();
                                                 }
                                             }
@@ -127,12 +134,14 @@ function editEvent(response, data, db) {
                                       params,
                                       function(err, results) {
                                           if(err) {
-                                              response.writeHead(418, {"Content-Type": "text/plain"});
+                                              response.writeHead(418, {"Content-Type": "application/json"});
+                                              response.write(JSON.stringify({"Response":"Error editing event"}));
                                               response.end();
                                           }
                                           else {
                                               console.log(results);
-                                              response.writeHead(200, {"Content-Type": "text/plain"});
+                                              response.writeHead(200, {"Content-Type": "application/json"});
+                                              response.write(JSON.stringify({"Response":"Success!"}));
                                               response.end();
                                           }
                                       });

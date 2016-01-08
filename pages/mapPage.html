@@ -1,20 +1,57 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Map View</title>
-    <link href="/favicon.ico" type="image/x-icon" rel="icon" />
+    <script src="/js/jquery-2.1.4.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWqWZ5pc7cLYlekvO-n2ZJt69ycQldNsg&language=en" type="text/javascript"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/mapPage.css">
-    <script type="text/javascript" src="/js/mapPage.js"></script>
-</head>
+    <script src="/js/createEvent.js" type="text/javascript" defer></script>
+    <script type="text/javascript" src="/js/map.js"></script>
+    <title>Map View</title>
+  </head>
 
 
   <body>
     <center>
-      <div id="map"></div>
 
-      <div class="btn" onclick="location.href='/pages/listPage.html';">View as List</div>
-      <div class="btn" onclick="location.href='/pages/commentPage.html';">Create Event</div>
+      <div id="MAPVIEW">
+        <div id="map"></div>
+        <div class="btn1">View as List</div>
+        <div class="btn2">Create Event</div>
+        <!--<div class="btn2">Create Event</div>-->
+      </div>
+      <div id="LISTVIEW">
+        <div id="list" class="commentArea">
+          <!-- bubbles here -->
+        </div>
+        <div class="btn3">View on Map</div>
+        <div class="btn2">Create Event</div>
+        <!--<div class="btn2">Create Event</div>-->
+      </div>
+      <div id="NEWEVENT">
+        <div id="h1">
+          <form>
+            Title: <input id ="title" type="text" name="title">
+          </form>
+        </div>
+        <div id="map">
+          <form>
+            Description: <br>
+            <input id="description" type="text" size="60%" name="comment"><br><br>
+            Type:<br>
+            <select id="type" name="mySelect" size="3">
+              <option>Free</option>
+              <option>Party</option>
+              <option>Warning</option>
+              <option>Food</option>
+              <option>Library</option>
+              <option>Misc</option>
+            </select>
+          </form>
+        </div>
+        <div id="btn" class="btn">Submit Event</div>
+        <div id="btnBack" class="btn">Go Back</div>
+      </div>
     </center>
   </body>
 </html>
