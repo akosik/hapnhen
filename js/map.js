@@ -16,7 +16,7 @@ window.onload = function()
                 disableDefaultUI: true,
                 navigationControl: false,
                 draggable: true,
-                scrollwheel: true,
+                scrollwheel: true
             };
 
         var mapObject = new google.maps.Map(mapDiv, options);
@@ -58,20 +58,20 @@ window.onload = function()
                     var list=result.hits;
                     list.forEach(function(e)
                                  {
-                                     var title = e.title
-                                     var time = e.startTime
-                                     var message = e.description
-                                     var location = e.location.coordinates
+                                     var title = e.title;
+                                     var time = e.startTime;
+                                     var message = e.description;
+                                     var location = e.location.coordinates;
                                      var minutes = 1000 * 60;
                                      var hours = minutes * 60;
                                      var days = hours * 24;
                                      var years = days * 365;
                                      var d = new Date();
                                      var current_time = d.getTime();
-                                     var time_since = current_time - time
+                                     var time_since = current_time - time;
                                      var days_since = Math.round(time_since / days);
                                      var hrs_since = Math.round(time_since / hours);
-                                     var min_since = Math.round(time_since / minutes)
+                                     var min_since = Math.round(time_since / minutes);
                                      $("#list").prepend
                                      ($(
                                          '<div class="bubbledLeft">'
@@ -93,7 +93,7 @@ window.onload = function()
                                              +'</div>'
                                              +'</div>'
                                      )
-                                     )
+                                     );
                                      var marker_options =
                                          {
                                              position: new google.maps.LatLng(location[1],location[0]),
@@ -116,7 +116,8 @@ window.onload = function()
                 },
                 error: function(jqXHR,textStatus,errorThrown)
                 {
-                    console.log(textStatus,errorThrown)
+                    console.log(textStatus,errorThrown);
+                    alert("Your event could not be added.");
                 }
             });
     };
