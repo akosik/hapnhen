@@ -5,6 +5,9 @@ function openpad(title,timestamp,message)
     $("#gloopad").show();
     $("#gloopad").text(title + timestamp + message);
 }
+
+var eventLatLng = null;
+
 window.onload = function()
 {
     $("#LISTVIEW").hide();
@@ -14,22 +17,48 @@ window.onload = function()
     navigator.geolocation.getCurrentPosition(showpos);
     function showpos(pos)
     {
+        //Setup map
         var myLatLng = {lat: pos.coords.latitude, lng: pos.coords.longitude};
-
         var options =
                 {
                     center: myLatLng,
                     zoom: 14,
                     mapTypeId: google.maps.MapTypeId.ROADMAP,
                     disableDefaultUI: true,
+                    disableDoubleClickZoom: true,
                     navigationControl: false,
-                    draggable: false,
-                    scrollwheel: false
+                    draggable: true,
+                    scrollwheel: true
                 };
-
         var mapObject = new google.maps.Map(mapDiv, options);
 
+        //current location marker
+        var myMarker = new google.maps.Marker({map: mapObject, position: myLatLng, title: "Your Location"});
 
+        //Control Double click point capture
+        var eventMarker;
+        mapObject.addListener('dblclick', function( event ){
+            var eventlat = event.latLng.lat();
+            var eventlng = event.latLng.lng();
+            eventLatLng = {lat: eventlat, lng: eventlng};
+            try {
+                eventMarker.setMap(null);
+                eventMarker = null;
+            }
+            catch (ReferenceError) {}
+            eventMarker = new google.maps.Marker({
+                map: mapObject,
+                position: eventLatLng,
+                title: "Your Event Location"
+            });
+            var infowindow = new google.maps.InfoWindow({content: "Your Event Location"});
+            eventMarker.addListener('click', function()
+                                          {
+                                              infowindow.open(mapObject, eventMarker);
+                                          });
+        });
+
+        //Collect query data
         var event_data =
                 {
                     "lat":pos.coords.latitude,
@@ -102,9 +131,9 @@ window.onload = function()
                                              };
                                      var infowindow = new google.maps.InfoWindow(infowindow_options);
                                      google.maps.event.addListener(marker, 'click', function()
-                {
-                    infowindow.open(mapObject, marker);
-                });
+                                                                   {
+                                                                       infowindow.open(mapObject, marker);
+                                                                   });
                                  });
                 },
                 error: function(jqXHR,textStatus,errorThrown)
@@ -112,7 +141,7 @@ window.onload = function()
                     console.log(textStatus,errorThrown);
                     alert("There was an error finding events in your area.");
                 }
-      });
+            });
     };
 };
 
@@ -130,13 +159,16 @@ $(document).ready(function()
                                        });
                       $(".btn2").click(function()
                                        {
-                                           $("#MAPVIEW").hide();
-                                           $("#LISTVIEW").hide();
-                                           $("#NEWEVENT").show();
+                                           if(eventLatLng) {
+                                               $("#MAPVIEW").hide();
+                                               $("#LISTVIEW").hide();
+                                               $("#NEWEVENT").show();
+                                           }
+                                           else alert("Please specify a location for your event first");
                                        });
                       $("#btnBack").click(function()
-                                          {
-                                              $("#MAPVIEW").show();
-                                              $("#NEWEVENT").hide();
-                                          });
+                                              {
+                                                  $("#MAPVIEW").show();
+                                                  $("#NEWEVENT").hide();
+                                              });
                   });
