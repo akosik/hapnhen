@@ -2,7 +2,9 @@
 Hapnhen is an event-based, user-generated social networking application.
 
   Post your own events!
+  
   or
+  
   Find events near you!
   
 Whatever you do, don't stay cooped up inside, find out what's *hapnhen!*
@@ -27,7 +29,7 @@ Whatever you do, don't stay cooped up inside, find out what's *hapnhen!*
       Congrats! Your local server is up and running!
       
 **5. Visit the webpage.**
-      Open up your favorite browser and type 127.0.0.1:3000 into the address bar and the webpage should appear.
+      Open up your favorite browser and type `127.0.0.1:3000` into the address bar and the webpage should appear.
 
 ##**Making changes**:
 To make changes, open up a text editor and open up the relevant file.
