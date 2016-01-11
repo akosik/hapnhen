@@ -1,8 +1,9 @@
-#Hapnhen is an event-based social networking application.
+#Hapnhen
+Hapnhen is an event-based, user-generated social networking application.
 
-##  Post your own events!
-##  or
-##  Find events near you!
+  Post your own events!
+  or
+  Find events near you!
   
 Whatever you do, don't stay cooped up inside, find out what's *hapnhen!*
 
