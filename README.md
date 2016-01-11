@@ -1,16 +1,17 @@
-Hapnhen is an event-based social networking application.
+#Hapnhen is an event-based social networking application.
 
-  Post your own events!
-  or
-  Find events near you!
+##  Post your own events!
+##  or
+##  Find events near you!
   
-Whatever you do, don't stay cooped up inside, find out what's hapnhen!
+Whatever you do, don't stay cooped up inside, find out what's *hapnhen!*
 
-**Installation**:
+## **Installation**:
 
 **1. Download Node.js**
       If you have homebrew, you can simply type `brew install node` into a terminal prompt.
       If you don't have homebrew, go [here](https://nodejs.org/en/download/) and pick the appropriate pre-built install for your machine.
+      
 **2. Download the hapnhen directory.**
       Click on the button "Download Zip" at the top right of the hapnhen github directory.
 **3. Install dependencies.**
@@ -24,10 +25,13 @@ Whatever you do, don't stay cooped up inside, find out what's hapnhen!
 **5. Visit the webpage.**
       Open up your favorite browser and type 127.0.0.1:3000 into the address bar and the webpage should appear.
 
-**Making changes**:
+##**Making changes**:
 To make changes, open up a text editor and open up the relevant file.
-  For Content: Open the mapPage.html file found in the pages folder of the hapnhen directory.
-  For Style: Open the mapPage.css file in the css folder, same directory.
-  For function: Open up the map.js or createEvent.js file in the js folder.
+
+  **For Content:** Open the mapPage.html file found in the pages folder of the hapnhen directory.
+  
+  **For Style:** Open the mapPage.css file in the css folder, same directory.
+  
+  **For function:** Open up the map.js or createEvent.js file in the js folder.
 
 If you don't know what text editor to use try [this](http://www.sublimetext.com/2).
