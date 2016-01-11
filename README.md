@@ -18,8 +18,7 @@ Whatever you do, don't stay cooped up inside, find out what's *hapnhen!*
       
 **3. Install dependencies.**
       Open up a terminal prompt and change directories into the hapnhen directory you just downloaded.
-      To change directories, type `cd </path/to/file>` where "<path/to/file>" is replaced by the actual path to the hapnhen directory on your machine.
-      
+      To change directories, type `cd </path/to/file>` where "\<path/to/file\>" is replaced by the actual path to the hapnhen directory on your machine.
       Once in the hapnhen directory type `npm install` into a terminal prompt to install the dependencies for the project.
 **4. Run a local server.**
       While still in the hapnhen directory, type `node index` into the terminal.
