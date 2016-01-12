@@ -1,14 +1,13 @@
 //variable name evntLatLng referenced from map.js file
-var btn = document.getElementById("btn");
+var btn = document.getElementById("btnSubmit");
 btn.onclick = function()
-      {
-          var myLat= eventLatLng.lat;
-          var myLng= eventLatLng.lng;
+{
+          navigator.geolocation.getCurrentPosition(function(pos) {
           var title= document.getElementById("title").value;
           var description = document.getElementById("description").value;
           var type = document.getElementById("type").value;
           var lhint = document.getElementById("location").value;
-          var msg = {"title": title, "location": {"type": "Point", "coordinates":[ myLng, myLat ]}, "description": description,
+              var msg = {"title": title, "location": {"type": "Point", "coordinates":[ pos.coords.longitude, pos.coords.latitude ]}, "description": description,
                      "eventType": type, "startTime":Date.now(),"locationHint": lhint};
           $.ajax(
               {
@@ -26,4 +25,5 @@ btn.onclick = function()
                       alert("Your event could not be created at this time.");
                   }
               });
-      };
+          });
+}

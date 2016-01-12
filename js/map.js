@@ -6,8 +6,6 @@ function openpad(title,timestamp,message)
     $("#gloopad").text(title + timestamp + message);
 }
 
-var eventLatLng = null;
-
 window.onload = function()
 {
     $("#LISTVIEW").hide();
@@ -34,30 +32,11 @@ window.onload = function()
 
         //current location marker
         var myMarker = new google.maps.Marker({map: mapObject, position: myLatLng, title: "Your Location"});
-
-        //Control Double click point capture
-        var eventMarker;
-        mapObject.addListener('dblclick', function( event ){
-            var eventlat = event.latLng.lat();
-            var eventlng = event.latLng.lng();
-            eventLatLng = {lat: eventlat, lng: eventlng};
-            try {
-                eventMarker.setMap(null);
-                eventMarker = null;
-            }
-            catch (ReferenceError) {}
-            eventMarker = new google.maps.Marker({
-                map: mapObject,
-                position: eventLatLng,
-                title: "Your Event Location"
-            });
-            var infowindow = new google.maps.InfoWindow({content: "Your Event Location"});
-            eventMarker.addListener('click', function()
-                                          {
-                                              infowindow.open(mapObject, eventMarker);
-                                          });
-        });
-
+        var infowindow = new google.maps.InfoWindow({content: "Your Current Location"});
+        myMarker.addListener('click', function()
+                                {
+                                    infowindow.open(mapObject, myMarker);
+                                });
         //Collect query data
         var event_data =
                 {
@@ -65,15 +44,65 @@ window.onload = function()
                     "lng":pos.coords.longitude,
                     "radius":2
                 };
+        findEvents(event_data, mapObject);
+        setInterval(update, 1000, mapObject);
+        function update(mapObject) {
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                var event_data =
+                        {
+                            "lat":pos.coords.latitude,
+                            "lng":pos.coords.longitude,
+                            "radius":2
+                        };
+                var myLatLng = {lat: pos.coords.latitude, lng: pos.coords.longitude};
+                findEvents(event_data, mapObject);
+                mapObject.panTo(myLatLng);
+            });
+        }
+    }
+};
+
+$(document).ready(function()
+                  {
+                      $("#btnList").click(function()
+                                       {
+                                           $("#LISTVIEW").show();
+                                           $("#MAPVIEW").hide();
+                                       });
+                      $("#btnMap").click(function()
+                                       {
+                                           $("#MAPVIEW").show();
+                                           $("#LISTVIEW").hide();
+                                       });
+                      $(".btnCreate").click(function()
+                                       {
+                                               $("#MAPVIEW").hide();
+                                               $("#LISTVIEW").hide();
+                                               $("#NEWEVENT").show();
+                                       });
+                      $("#btnBack").click(function()
+                                              {
+                                                  $("#MAPVIEW").show();
+                                                  $("#NEWEVENT").hide();
+                                              });
+                  });
+
+function findEvents(query_info, mapObject) {
         $.ajax(
             {
                 type: 'POST',
                 url:'/findEvents',
-                data: JSON.stringify(event_data),
+                data: JSON.stringify(query_info),
                 dataType: 'json',
                 success: function(result,status)
                 {
                     var list=result.hits;
+                    var oldEvents = document.getElementsByClassName("bubbledLeft");
+                    for (var i=oldEvents.length - 1; i>=0; i--) {
+                        if (oldEvents[i].parentNode) {
+                            oldEvents[i].parentNode.removeChild(oldEvents[i]);
+                        }
+                    }
                     list.forEach(function(e)
                                  {
                                      var title = e.title;
@@ -142,33 +171,4 @@ window.onload = function()
                     alert("There was an error finding events in your area.");
                 }
             });
-    };
 };
-
-$(document).ready(function()
-                  {
-                      $(".btn1").click(function()
-                                       {
-                                           $("#LISTVIEW").show();
-                                           $("#MAPVIEW").hide();
-                                       });
-                      $(".btn3").click(function()
-                                       {
-                                           $("#MAPVIEW").show();
-                                           $("#LISTVIEW").hide();
-                                       });
-                      $(".btn2").click(function()
-                                       {
-                                           if(eventLatLng) {
-                                               $("#MAPVIEW").hide();
-                                               $("#LISTVIEW").hide();
-                                               $("#NEWEVENT").show();
-                                           }
-                                           else alert("Please specify a location for your event first");
-                                       });
-                      $("#btnBack").click(function()
-                                              {
-                                                  $("#MAPVIEW").show();
-                                                  $("#NEWEVENT").hide();
-                                              });
-                  });

@@ -1,3 +1,6 @@
+body {
+    margin: 0;
+}
 #h1 {
   display:block;
   text-align:center;
@@ -19,18 +22,25 @@
   text-decoration: none;
   margin-bottom: 20px;
 }
-#map, #list {
-    width: 80%;
-    height: 500px;
-    border: 4px solid #b3d9b0;
-    margin-top:20px;
-    margin-bottom: 20px;
+#mapContainer {
+    display:block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    border: none;
+    z-index: -1;
 }
-.commentArea {
+#map {
+    width: 100%;
+    height: 100%;
+}
+#list {
+    width: auto;
+    height: auto;
     font: 14px Arial;
     padding: 0 10px;
     margin-top: 20px;
-    width: 100%;
+    width: 70%;
     overflow: scroll;
 }
 
@@ -60,11 +70,11 @@
     left: -8px;
     content: "";
 }
-.btn, .btn1, .btn2, .btn3 {
+.btn {
   display:block;
   text-align:center;
-  width:80%;
-  height:50%;
+  width:90%;
+  height:5%;
   background: #8cc284;
   background-image: -webkit-linear-gradient(top, #8cc284, #4eab5c);
   background-image: -moz-linear-gradient(top, #8cc284, #4eab5c);
@@ -80,8 +90,9 @@
   padding: 10px 40px 10px 40px;
   text-decoration: none;
   margin-bottom: 20px;
+  position: fixed;
 }
-.btn:hover, .btn1:hover, .btn2:hover, .btn3:hover {
+.btn:hover {
   background: #b3d9b0;
   background-image: -webkit-linear-gradient(top, #b3d9b0, #a8dbaa);
   background-image: -moz-linear-gradient(top, #b3d9b0, #a8dbaa);
@@ -89,6 +100,12 @@
   background-image: -o-linear-gradient(top, #b3d9b0, #a8dbaa);
   background-image: linear-gradient(to bottom, #b3d9b0, #a8dbaa);
   text-decoration: none;
+                                      }
+#btnList, #btnMap, #btnSubmit {
+    top: 80%;
+}
+.btnCreate, #btnBack {
+    top: 90%;
 }
 .timestamp {
   text-align:center;
