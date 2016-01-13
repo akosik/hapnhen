@@ -1,23 +1,41 @@
+@media screen
+and (min-device-width: 1200px)
+and (max-device-width: 1600px) {
+    #list {
+        width: 30%;
+    }
+}
+@media screen
+and (min-device-width: 320px)
+and (max-device-width: 736px) {
+    #list {
+        width:80%;
+    }
+}
+
+#LISTVIEW, #NEWEVENT {
+    display: none;
+}
+
+#NEWEVENT {
+    background: #282827;
+    width: 100%;
+    height:100%;
+    opacity: .9;
+    position: absolute;
+}
+
 body {
     margin: 0;
 }
-#h1 {
+#createEventForm {
   display:block;
-  text-align:center;
+  text-align:left;
   width:80%;
-  height:50%;
-  background: #8cc284;
-  background-image: -webkit-linear-gradient(top, #8cc284, #4eab5c);
-  background-image: -moz-linear-gradient(top, #8cc284, #4eab5c);
-  background-image: -ms-linear-gradient(top, #8cc284, #4eab5c);
-  background-image: -o-linear-gradient(top, #8cc284, #4eab5c);
-  background-image: linear-gradient(to bottom, #8cc284, #4eab5c);
-  -webkit-border-radius: 30;
-  -moz-border-radius: 30;
-  border-radius: 30px;
+  height:80%;
   font-family: Arial;
-  color: #ffffff;
-  font-size: 20px;
+  color: #DCD8CF;
+  font-size: 5em;
   padding: 10px 10px 10px 10px;
   text-decoration: none;
   margin-bottom: 20px;
@@ -35,12 +53,9 @@ body {
     height: 100%;
 }
 #list {
-    width: auto;
-    height: auto;
     font: 14px Arial;
-    padding: 0 10px;
+   padding: 0 10px;
     margin-top: 20px;
-    width: 70%;
     overflow: scroll;
 }
 
@@ -104,7 +119,7 @@ body {
 #btnList, #btnMap, #btnSubmit {
     top: 80%;
 }
-.btnCreate, #btnBack {
+.btnCreate{
     top: 90%;
 }
 .timestamp {
@@ -118,4 +133,112 @@ body {
 #gloopad {
   width:80%;
   height:50%;
+}
+
+
+
+
+
+
+
+
+* { -webkit-font-smoothing:antialiased; -moz-font-smoothing:antialiased; -ms-font-smoothing:antialiased; -o-font-smoothing:antialiased; font-smoothing:antialiased; }
+
+.btnheadings{
+    font-family: "Open Sans", arial;
+    font-weight: 300;
+}
+.container{
+    position: fixed;
+    width: 16em;
+    height: 15em;
+    left: 0px;
+    top: 55%;
+    -webkit-transform:scale(0.9);
+}
+div.wide{
+    text-decoration:none;
+    color:#fff;
+    -webkit-transition: -webkit-transform 0.1s;
+    position:relative;
+    overflow:hidden;
+}
+
+div.wide h2.btnheadings {
+    position:absolute;
+    bottom:5px;
+    font-size:20px;
+}
+div.wide:hover {
+    -webkit-transform: scale(1.05);
+}
+
+div.wide:active {
+    -webkit-transform: scale(1);
+}
+.wide{
+    width:16.875em;
+    height:7.5em;
+    overflow:hidden;
+    font-size:13px;
+    padding:10px;
+    display:block;
+    margin: auto;
+}
+.orange{background: #E25D33;}
+.black{background: #282827;}
+
+#btnBack {
+    position: fixed;
+    left: 90%;
+    top: 5%;
+}
+#close {
+    width: 1em;
+    height: 1em;
+}
+
+input[type="text"] {
+    padding: 10px;
+    border:none;
+    border-bottom: solid 10px #DCD8CF;
+    transition: border 0.3s;
+    width: 4em;
+    line-height: 1.25em;
+    font-size: 1em;
+    background: #282827;
+    color: #DCD8CF;
+}
+input[type="text"]:focus,
+input[type="text"].focus {
+    border-bottom: solid 10px #E25D33;
+    outline: none;
+}
+
+#description {
+    width: 6em;
+}
+
+#location {
+    width: 5em;
+}
+
+.form {
+    position:relative;
+    left: 1em;
+}
+#selectstyle {
+    left:2em;
+}
+
+#selectstyle select {
+   background: #DCD8CF;
+   width: 4em;
+   left: 1em;
+   padding: 5px;
+   font-size: 30px;
+   line-height: 1.25em;
+   border: none;
+   outline:none;
+   -webkit-appearance: menulist-button;
 }

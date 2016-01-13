@@ -29,6 +29,7 @@ window.onload = function()
                     scrollwheel: true
                 };
         var mapObject = new google.maps.Map(mapDiv, options);
+        styleMap(mapObject);
 
         //current location marker
         var myMarker = new google.maps.Marker({map: mapObject, position: myLatLng, title: "Your Location"});
@@ -45,7 +46,7 @@ window.onload = function()
                     "radius":2
                 };
         findEvents(event_data, mapObject);
-        setInterval(update, 1000, mapObject);
+        setInterval(update, 1000*60, mapObject);
         function update(mapObject) {
             navigator.geolocation.getCurrentPosition(function(pos) {
                 var event_data =
@@ -61,31 +62,6 @@ window.onload = function()
         }
     }
 };
-
-$(document).ready(function()
-                  {
-                      $("#btnList").click(function()
-                                       {
-                                           $("#LISTVIEW").show();
-                                           $("#MAPVIEW").hide();
-                                       });
-                      $("#btnMap").click(function()
-                                       {
-                                           $("#MAPVIEW").show();
-                                           $("#LISTVIEW").hide();
-                                       });
-                      $(".btnCreate").click(function()
-                                       {
-                                               $("#MAPVIEW").hide();
-                                               $("#LISTVIEW").hide();
-                                               $("#NEWEVENT").show();
-                                       });
-                      $("#btnBack").click(function()
-                                              {
-                                                  $("#MAPVIEW").show();
-                                                  $("#NEWEVENT").hide();
-                                              });
-                  });
 
 function findEvents(query_info, mapObject) {
         $.ajax(

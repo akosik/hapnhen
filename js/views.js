@@ -1,0 +1,26 @@
+$(document).ready(function()
+                  {
+                      $("#btnList").click(function()
+                                       {
+                                           $("#LISTVIEW").show();
+                                           $("#MAPVIEW").hide();
+                                       });
+                      $("#btnMap").click(function()
+                                       {
+                                           $("#MAPVIEW").show();
+                                           $("#LISTVIEW").hide();
+                                       });
+                      $(".btnCreate").click(function()
+                                       {
+                                           $("#MAPVIEW").show();
+                                           $("#LISTVIEW").hide();
+                                           $("#btnList").hide();
+                                           $(".btnCreate").hide();
+                                           $("#NEWEVENT").show();
+                                       });
+                      $("#btnBack").click(function()
+                                              {
+                                                  $("#MAPVIEW").show();
+                                                  $("#NEWEVENT").hide();
+                                              });
+                  });

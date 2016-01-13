@@ -1,6 +1,7 @@
 var fs = require('fs');
 var assert = require('assert');
 var process = require('process');
+var zlib = require('zlib');
 
 function pages(path, response, data) {
     console.log("Handling 'page' request for " + path + ".");
@@ -29,7 +30,20 @@ function pages(path, response, data) {
     });
 }
 
-function findEvents(response, data, db) {
+function media(path, response) {
+    console.log("Handling media request for " + path + ".");
+
+    var gzip = zlib.createGzip();
+    response.writeHead(200, {"Content-Type":"image/png", "Content-Encoding":"gzip"});
+
+    fs.createReadStream(__dirname + path, {
+        'bufferSize': 4 * 1024
+    }).on('error', function(err) {
+        console.error(err);
+    }).pipe(gzip).pipe(response);
+}
+
+function findEvents(response, data, db, ip) {
     console.log("Handling 'find' request.");
 
     //extract JSON data
@@ -63,10 +77,10 @@ function findEvents(response, data, db) {
             response.end();
         }
     });
-}
+};
 
 
-function createEvent(response, data, db) {
+function createEvent(response, data, db, ip) {
     console.log("Handling 'create' request.");
     var params = JSON.parse(data);
     console.log(params);
@@ -103,7 +117,7 @@ function createEvent(response, data, db) {
     });
 }
 
-function deleteEvent(response, data, db) {
+function deleteEvent(response, data, db, ip) {
     console.log("Handling 'delete' request.");
     var params = JSON.parse(data);
 
@@ -126,7 +140,7 @@ function deleteEvent(response, data, db) {
                                           );
 }
 
-function editEvent(response, data, db) {
+function editEvent(response, data, db, ip) {
     console.log("Handling 'edit' request.");
     var params = JSON.parse(data);
 
@@ -147,6 +161,29 @@ function editEvent(response, data, db) {
                                       });
 }
 
+function userIsGoing(response, data, db, ip) {
+    console.log("User vote from " + ip + ".");
+    var params = JSON.parse(data);
+
+    db.collection("events").updateOne({"title":params["title"]},
+                                      {"$inc":{"going": 1},"$push":{"usersGoing":ip}},
+                                      function(err, results) {
+                                          if(err) {
+                                              response.writeHead(418, {"Content-Type": "application/json"});
+                                              response.write(JSON.stringify({"Response":"Error editing event"}));
+                                              response.end();
+                                          }
+                                          else {
+                                              console.log(results);
+                                              response.writeHead(200, {"Content-Type": "application/json"});
+                                              response.write(JSON.stringify({"Response":"Success!"}));
+                                              response.end();
+                                          }
+                                      });
+}
+
+exports.media = media;
+exports.going = userIsGoing;
 exports.pages = pages;
 exports.findEvents = findEvents;
 exports.editEvent = editEvent;

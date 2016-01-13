@@ -26,4 +26,4 @@ btn.onclick = function()
                   }
               });
           });
-}
+};

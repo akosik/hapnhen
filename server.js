@@ -11,10 +11,11 @@ function start(route, handleDict, db) {
         console.log("Request for " + pathname + " received.");
 
         //handle post versus get requests (put and delete are not supported on this server)
-        if(request.method === "POST" || request.method === "GET") {
+        if(request.method === "POST") {
 
             request.setEncoding("utf8");
 
+            var ip = 5;//request.header['x-forwarded-for'] || request.connection.remoteAddress;
             /*
              calls 'on' function from request object
              'on' is an alias for 'addListener'
@@ -27,9 +28,10 @@ function start(route, handleDict, db) {
                 console.log("Recieved data chunk '" + dataChunk + "'.");
             }).on("end", function() {
                 //once the post body has been recieved in its entirety, we call on our router module
-                route(pathname, handleDict, response, data, db);
+                route(pathname, response, handleDict, data, db, ip);
             });
         }
+        else if(request.method === "GET") route(pathname, response);
     });
 
     server.listen(3000);
