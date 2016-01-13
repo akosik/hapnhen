@@ -20,11 +20,18 @@ If you don't have homebrew, go [here](https://nodejs.org/en/download/) and pick 
 
 Click on the button "Download Zip" at the top right of the hapnhen github directory.
 
-**3. Install dependencies.**
+**3. Unzip the directory.**
+
+Find the hapnhen folder you just downloaded and unzip it. On macs this should simply mean clicking on the zipped file.
+
+**4. Move into the Hapnhen directory.**
 
 Open up a terminal prompt and change directories into the hapnhen directory you just downloaded.
 To change directories, type `cd </path/to/file>` where "\</path/to/file\>" is replaced by the actual path to the hapnhen directory on your machine.
+
+**4. Install dependencies.**
 Once in the hapnhen directory type `npm install` into a terminal prompt to install the dependencies for the project.
+There will be a few harmless warnings, which you may ignore.
 
 **4. Run a local server.**
 
