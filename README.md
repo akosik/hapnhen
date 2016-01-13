@@ -29,17 +29,18 @@ Find the hapnhen folder you just downloaded and unzip it. On macs this should si
 Open up a terminal prompt and change directories into the hapnhen directory you just downloaded.
 To change directories, type `cd </path/to/file>` where "\</path/to/file\>" is replaced by the actual path to the hapnhen directory on your machine.
 
-**4. Install dependencies.**
+**5. Install dependencies.**
 Once in the hapnhen directory type `npm install` into a terminal prompt to install the dependencies for the project.
 There will be a few harmless warnings, which you may ignore.
 
-**4. Run a local server.**
+**6. Run a local server.**
 
 While still in the hapnhen directory, type `node index` into the terminal.
+It will ask you for your database username and password.
 You should see a line that says "Server Started" after a second or too.
 Congrats! Your local server is up and running!
 
-**5. Visit the webpage.**
+**7. Visit the webpage.**
 
 Open up your favorite browser and type `127.0.0.1:3000` into the address bar and the webpage should appear.
 
