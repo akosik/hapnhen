@@ -1,26 +1,35 @@
 $(document).ready(function()
                   {
                       $("#btnList").click(function()
-                                       {
-                                           $("#LISTVIEW").show();
-                                           $("#MAPVIEW").hide();
-                                       });
+                                          {
+                                              $("#LISTVIEW").show();
+                                              $("#MAPVIEW").hide();
+                                          });
                       $("#btnMap").click(function()
-                                       {
-                                           $("#MAPVIEW").show();
-                                           $("#LISTVIEW").hide();
-                                       });
+                                         {
+                                             $("#MAPVIEW").show();
+                                             $("#LISTVIEW").hide();
+                                         });
                       $(".btnCreate").click(function()
-                                       {
-                                           $("#MAPVIEW").show();
-                                           $("#LISTVIEW").hide();
-                                           $("#btnList").hide();
-                                           $(".btnCreate").hide();
-                                           $("#NEWEVENT").show();
-                                       });
+                                            {
+                                                $("#MAPVIEW").show();
+                                                $("#LISTVIEW").hide();
+                                                $("#btnList").hide();
+                                                $(".btnCreate").hide();
+                                                $("#NEWEVENT").show();
+                                            });
+                      $(document).on('click', '.event', function()
+                                        {
+                                            $("#gloopad").show();
+                                            $("#MAPVIEW").hide();
+                                            $("#LISTVIEW").hide();
+                                            $("#NEWEVENT").hide();
+                                        });
                       $("#btnBack").click(function()
-                                              {
-                                                  $("#MAPVIEW").show();
-                                                  $("#NEWEVENT").hide();
-                                              });
+                                          {
+                                              $("#MAPVIEW").show();
+                                              $("#btnList").show();
+                                              $(".btnCreate").show();
+                                              $("#NEWEVENT").hide();
+                                          });
                   });

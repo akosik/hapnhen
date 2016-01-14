@@ -8,15 +8,12 @@ function openpad(title,timestamp,message)
 
 window.onload = function()
 {
-    $("#LISTVIEW").hide();
-    $("#NEWEVENT").hide();
-    $("#gloopad").hide();
     var mapDiv = document.getElementById('map');
     navigator.geolocation.getCurrentPosition(showpos);
     function showpos(pos)
     {
         //Setup map
-        var myLatLng = {lat: pos.coords.latitude, lng: pos.coords.longitude};
+        var myLatLng = {lat: pos.coords.latitude, lng:  pos.coords.longitude};
         var options =
                 {
                     center: myLatLng,
@@ -49,15 +46,11 @@ window.onload = function()
         setInterval(update, 1000*60, mapObject);
         function update(mapObject) {
             navigator.geolocation.getCurrentPosition(function(pos) {
-                var event_data =
-                        {
-                            "lat":pos.coords.latitude,
-                            "lng":pos.coords.longitude,
-                            "radius":2
-                        };
-                var myLatLng = {lat: pos.coords.latitude, lng: pos.coords.longitude};
-                findEvents(event_data, mapObject);
+                var myLatLng = {lat: pos.coords.latitude, lng:pos.coords.longitude};
                 mapObject.panTo(myLatLng);
+                var event_data = myLatLng;
+                event_data.radius = 2;
+                findEvents(event_data, mapObject);
             });
         }
     }
@@ -73,18 +66,24 @@ function findEvents(query_info, mapObject) {
                 success: function(result,status)
                 {
                     var list=result.hits;
-                    var oldEvents = document.getElementsByClassName("bubbledLeft");
+                    var oldEvents = document.getElementsByClassName("event");
                     for (var i=oldEvents.length - 1; i>=0; i--) {
                         if (oldEvents[i].parentNode) {
                             oldEvents[i].parentNode.removeChild(oldEvents[i]);
                         }
                     }
+                    var num = 0;
                     list.forEach(function(e)
                                  {
                                      var title = e.title;
                                      var time = e.startTime;
                                      var message = e.description;
                                      var location = e.location.coordinates;
+                                     var locationHint = e.locationHint;
+                                     var type = e.eventType;
+                                     var iAmGoing = e.iAmGoing;
+                                     var going = e.going;
+                                     if(going == undefined)  going = 0;
                                      var minutes = 1000 * 60;
                                      var hours = minutes * 60;
                                      var days = hours * 24;
@@ -109,21 +108,36 @@ function findEvents(query_info, mapObject) {
                                          timestamp = + min_since +' minutes ago';
                                      }
 
-                                     $("#list").prepend
-                                     ($(
-                                         '<div class="bubbledLeft">'
+                                     $("#events").prepend
+                                     (
+                                         '<li>'
+                                         +'<span class="event">'
                                              +'<b>'+title+'</b>'+'<br>'
+                                             +'<div class="listType">'
+                                             +type
+                                             +'</div>'
                                              +'<div class="message">'
                                              +message
+                                             +'</div>'
+                                             +'<div class="listPlace">'
+                                             +locationHint
+                                             +'</div>'
                                              +'<div class="timestamp">'
                                              +timestamp
                                              +'</div>'
+                                             +'<div class="going">'
+                                             +going
+                                             +'<input type="checkbox" id="check' + num  + '">'
                                              +'</div>'
-                                             +'</div>'
-                                     ).click(function(e){
+                                             +'</span>'
+                                         +'</li>'
+                                     /*.click(function(e){
                                          openpad(title,timestamp,message);
-                                     })
+                                     })*/
                                      );
+                                     setupVoting({title:title}, num);
+                                     if(iAmGoing) document.getElementById("check" + num).checked = true;
+                                     num++;
                                      var marker_options =
                                              {
                                                  position: new google.maps.LatLng(location[1],location[0]),

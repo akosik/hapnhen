@@ -1,3 +1,4 @@
+/*Responsive Design*/
 @media screen
 and (min-device-width: 1200px)
 and (max-device-width: 1600px) {
@@ -12,8 +13,8 @@ and (max-device-width: 736px) {
         width:80%;
     }
 }
-
-#LISTVIEW, #NEWEVENT {
+/*Major Views*/
+#LISTVIEW, #NEWEVENT, #gloopad {
     display: none;
 }
 
@@ -21,25 +22,16 @@ and (max-device-width: 736px) {
     background: #282827;
     width: 100%;
     height:100%;
-    opacity: .9;
+    opacity: .99;
     position: absolute;
 }
 
 body {
     margin: 0;
+    top: 0;
 }
-#createEventForm {
-  display:block;
-  text-align:left;
-  width:80%;
-  height:80%;
-  font-family: Arial;
-  color: #DCD8CF;
-  font-size: 5em;
-  padding: 10px 10px 10px 10px;
-  text-decoration: none;
-  margin-bottom: 20px;
-}
+
+/*MapView*/
 #mapContainer {
     display:block;
     position: fixed;
@@ -52,96 +44,80 @@ body {
     width: 100%;
     height: 100%;
 }
+
+/*ListView*/
+#LISTVIEW {
+    background: #282827;
+    top: 0em;
+}
 #list {
     font: 14px Arial;
-   padding: 0 10px;
-    margin-top: 20px;
+    padding: 0 10px;
+    margin: auto;
     overflow: scroll;
+    width: 900px;
 }
+#list ul {
+    list-style-type: none;
+}
+li .event {
+    float: left;
+    margin: 10px;
+    border: 5px solid #DCD8CF;
 
-.bubbledLeft {
-    margin-top: 20px;
+    -webkit-transition: box-shadow 0.5s ease;
+    -moz-transition: box-shadow 0.5s ease;
+    -o-transition: box-shadow 0.5s ease;
+    -ms-transition: box-shadow 0.5s ease;
+    transition: box-shadow 0.5s ease;
+
     padding: 5px 9px;
-    width:98%;
-    clear: both;
+    width:20em;
+    height: 20em;
     position: relative;
     text-align: left;
     float: left;
-    margin-right: auto;
-    -webkit-border-radius: 8px 8px 8px 0px;
-    -moz-border-radius: 8px 8px 8px 0px;
-    -o-border-radius: 8px 8px 8px 0px;
-    -ms-border-radius: 8px 8px 8px 0px;
-    border-radius: 8px 8px 8px 0px;
-    background-color: #6495ED;
-    color: #ffffff;
+    background-color: #E25D33;
+    color: #DCD8CF;
 }
 
-.bubbledLeft:before {
-    border-bottom: 10px solid #6495ED;
-    border-left: 9px solid rgba(0, 0, 0, 0);
-    position: absolute;
-    bottom: 0;
-    left: -8px;
-    content: "";
+li .event:hover {
+  -webkit-box-shadow: 0px 0px 7px rgba(255,255,255,0.9);
+  box-shadow: 0px 0px 7px rgba(255,255,255,0.9);
 }
-.btn {
-  display:block;
-  text-align:center;
-  width:90%;
-  height:5%;
-  background: #8cc284;
-  background-image: -webkit-linear-gradient(top, #8cc284, #4eab5c);
-  background-image: -moz-linear-gradient(top, #8cc284, #4eab5c);
-  background-image: -ms-linear-gradient(top, #8cc284, #4eab5c);
-  background-image: -o-linear-gradient(top, #8cc284, #4eab5c);
-  background-image: linear-gradient(to bottom, #8cc284, #4eab5c);
-  -webkit-border-radius: 30;
-  -moz-border-radius: 30;
-  border-radius: 30px;
-  font-family: Arial;
-  color: #ffffff;
-  font-size: 33px;
-  padding: 10px 40px 10px 40px;
-  text-decoration: none;
-  margin-bottom: 20px;
-  position: fixed;
+
+.event input[type="checkbox"] {
+    height: 3em;
+    position: relative;
+    top: 0em;
+    float: right;
 }
-.btn:hover {
-  background: #b3d9b0;
-  background-image: -webkit-linear-gradient(top, #b3d9b0, #a8dbaa);
-  background-image: -moz-linear-gradient(top, #b3d9b0, #a8dbaa);
-  background-image: -ms-linear-gradient(top, #b3d9b0, #a8dbaa);
-  background-image: -o-linear-gradient(top, #b3d9b0, #a8dbaa);
-  background-image: linear-gradient(to bottom, #b3d9b0, #a8dbaa);
-  text-decoration: none;
-                                      }
-#btnList, #btnMap, #btnSubmit {
-    top: 80%;
+.event .going {
+    position: relative;
+    top:50%;
 }
-.btnCreate{
-    top: 90%;
+.event .message {
+    position: relative;
+    top: 5%;
+    text-align:center;
+    font-size: 16px;
 }
+.event .locationHint {
+    position: relative;
+    top: 10%;
+    margin: auto;
+    text-align: center;
+}
+
+/*.btnCreate{
+    top: 50%;
+}*/
 .timestamp {
   text-align:center;
   font-size:12px;
 }
-.message {
-  text-align:center;
-  font-size: 16px;
-}
-#gloopad {
-  width:80%;
-  height:50%;
-}
 
-
-
-
-
-
-
-
+/*Buttons*/
 * { -webkit-font-smoothing:antialiased; -moz-font-smoothing:antialiased; -ms-font-smoothing:antialiased; -o-font-smoothing:antialiased; font-smoothing:antialiased; }
 
 .btnheadings{
@@ -153,8 +129,7 @@ body {
     width: 16em;
     height: 15em;
     left: 0px;
-    top: 55%;
-    -webkit-transform:scale(0.9);
+    top: 70%;
 }
 div.wide{
     text-decoration:none;
@@ -184,10 +159,13 @@ div.wide:active {
     padding:10px;
     display:block;
     margin: auto;
+    float: left;
 }
 .orange{background: #E25D33;}
 .black{background: #282827;}
 
+
+/*NewEvent View*/
 #btnBack {
     position: fixed;
     left: 90%;
@@ -203,8 +181,8 @@ input[type="text"] {
     border:none;
     border-bottom: solid 10px #DCD8CF;
     transition: border 0.3s;
-    width: 4em;
-    line-height: 1.25em;
+    width: 6em;
+    line-height: .25em;
     font-size: 1em;
     background: #282827;
     color: #DCD8CF;
@@ -215,17 +193,14 @@ input[type="text"].focus {
     outline: none;
 }
 
-#description {
-    width: 6em;
-}
-
-#location {
-    width: 5em;
-}
-
 .form {
     position:relative;
-    left: 1em;
+    left: auto;
+    right: auto;
+}
+
+form {
+    border: solid .25em #DCD8CF;
 }
 #selectstyle {
     left:2em;
@@ -241,4 +216,32 @@ input[type="text"].focus {
    border: none;
    outline:none;
    -webkit-appearance: menulist-button;
+}
+
+#createEventForm .container {
+    width: 5em;
+    height: 2em;
+    top: 10em;
+}
+
+#btnSubmit {
+    top: 30%;
+}
+#createEventForm {
+  display:block;
+  text-align:left;
+  width: 10em;
+  height:80%;
+  font-family: Arial;
+  color: #DCD8CF;
+  font-size: 3.5em;
+  padding: 10px 10px 10px 10px;
+  text-decoration: none;
+  margin-bottom: 20px;
+}
+
+/*Gloopad*/
+#gloopad {
+  width:100%;
+  height:40em;
 }

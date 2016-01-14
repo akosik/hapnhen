@@ -14,7 +14,7 @@ function route(path, response, handleDict, data, db, ip) {
 
     //checks to make sure requested path corresponds to one of the functions we offer
     //if it does, execute the function
-    else if (typeof handleDict[path] === 'function') handleDict[path](response, data, db, ip);
+    else if (handleDict !== undefined && typeof handleDict[path] === 'function') handleDict[path](response, data, db, ip);
     //if it doesn't, respond with 404
     else {
         console.log("Missing request handler for " + path);

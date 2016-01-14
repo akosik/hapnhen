@@ -44,11 +44,10 @@ function media(path, response) {
 }
 
 function findEvents(response, data, db, ip) {
-    console.log("Handling 'find' request.");
+    console.log("Handling 'find' request from " + ip + ".");
 
     //extract JSON data
     var params = JSON.parse(data);
-    console.log(params);
 
     var radius = params["radius"] / 3963.2;
 
@@ -71,6 +70,12 @@ function findEvents(response, data, db, ip) {
             response.end();
         }
         else {
+            docs.forEach(function(doc) {
+                if(doc["usersGoing"] !== undefined) {
+                    if(doc["usersGoing"].indexOf(ip) !== -1) doc["iAmGoing"] = true;
+                    delete doc["usersGoing"];
+                }
+            });
             var resText = {"hits": docs};
             response.writeHead(200, {"Content-Type": "application/json"});
             response.write(JSON.stringify(resText));
@@ -153,7 +158,6 @@ function editEvent(response, data, db, ip) {
                                               response.end();
                                           }
                                           else {
-                                              console.log(results);
                                               response.writeHead(200, {"Content-Type": "application/json"});
                                               response.write(JSON.stringify({"Response":"Success!"}));
                                               response.end();
@@ -165,21 +169,33 @@ function userIsGoing(response, data, db, ip) {
     console.log("User vote from " + ip + ".");
     var params = JSON.parse(data);
 
-    db.collection("events").updateOne({"title":params["title"]},
-                                      {"$inc":{"going": 1},"$push":{"usersGoing":ip}},
-                                      function(err, results) {
-                                          if(err) {
-                                              response.writeHead(418, {"Content-Type": "application/json"});
-                                              response.write(JSON.stringify({"Response":"Error editing event"}));
-                                              response.end();
+    console.log(params);
+
+    db.collection("events").find({"title": params["title"]}).limit(1).next(function(err, doc){
+        if(doc.usersGoing == undefined || doc.usersGoing.indexOf(ip) == -1) {
+            console.log(doc);
+            db.collection("events").updateOne({"title": params["title"]},
+                                              { $inc: {"going":1},
+                                                $addToSet: {"usersGoing":ip}},
+                                              function(err, results) {
+                                                  if(err) {
+                                                      response.writeHead(418, {"Content-Type": "application/json"});
+                                                      response.write(JSON.stringify({"Response":"Error editing event"}));
+                                                      response.end();
+                                                  }
+                                                  else {
+                                                      response.writeHead(200, {"Content-Type": "application/json"});
+                                                      response.write(JSON.stringify({"Response":"Success!"}));
+                                                      response.end();
                                           }
-                                          else {
-                                              console.log(results);
-                                              response.writeHead(200, {"Content-Type": "application/json"});
-                                              response.write(JSON.stringify({"Response":"Success!"}));
-                                              response.end();
-                                          }
-                                      });
+                                              });
+        }
+        else{
+            response.writeHead(418, {"Content-Type": "application/json"});
+            response.write(JSON.stringify({"Response":"You already said you're going."}));
+            response.end();
+        }
+    });
 }
 
 exports.media = media;

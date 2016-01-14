@@ -15,7 +15,8 @@ function start(route, handleDict, db) {
 
             request.setEncoding("utf8");
 
-            var ip = 5;//request.header['x-forwarded-for'] || request.connection.remoteAddress;
+            var ip = request.headers['x-forwarded-for'] || request.connection.remoteAddress;
+
             /*
              calls 'on' function from request object
              'on' is an alias for 'addListener'
