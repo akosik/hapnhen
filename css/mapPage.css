@@ -13,12 +13,8 @@ and (max-device-width: 736px) {
         width:80%;
     }
 }
-/*Major Views*/
-#LISTVIEW, #NEWEVENT, #gloopad {
-    display: none;
-}
 
-#NEWEVENT {
+#NEWEVENT, #GLOOPADVIEW{
     background: #282827;
     width: 100%;
     height:100%;
@@ -26,9 +22,10 @@ and (max-device-width: 736px) {
     position: absolute;
 }
 
-body {
+body, html {
     margin: 0;
     top: 0;
+    height: 100%;
 }
 
 /*MapView*/
@@ -38,7 +35,6 @@ body {
     width: 100%;
     height: 100%;
     border: none;
-    z-index: -1;
 }
 #map {
     width: 100%;
@@ -48,7 +44,12 @@ body {
 /*ListView*/
 #LISTVIEW {
     background: #282827;
+    opacity: .99;
     top: 0em;
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow:auto;
 }
 #list {
     font: 14px Arial;
@@ -60,8 +61,8 @@ body {
 #list ul {
     list-style-type: none;
 }
-li .event {
-    float: left;
+.event {
+    float: right;
     margin: 10px;
     border: 5px solid #DCD8CF;
 
@@ -79,45 +80,99 @@ li .event {
     float: left;
     background-color: #E25D33;
     color: #DCD8CF;
+    cursor: pointer;
 }
 
-li .event:hover {
+.event:hover {
   -webkit-box-shadow: 0px 0px 7px rgba(255,255,255,0.9);
   box-shadow: 0px 0px 7px rgba(255,255,255,0.9);
+  -webkit-transform: scale(1.25);
+  z-index: 10;
+}
+.event:active {
+    -webkit-transform: scale(1);
 }
 
 .event input[type="checkbox"] {
     height: 3em;
-    position: relative;
-    top: 0em;
-    float: right;
+    position: absolute;
+    top: 76%;
+    left: 82%;
 }
-.event .going {
-    position: relative;
-    top:50%;
+
+.going {
+    position: absolute;
+    top:80%;
+    left: 80%;
+    margin: auto;
 }
-.event .message {
+
+.commentButton {
+    position: absolute;
+    top: 60%;
+    left: 5%;
+    width: 10em;
+    height: 5em;
+    overflow:hidden;
+    font-size:13px;
+    padding:10px;
+    display:block;
+    margin: auto;
+    cursor: pointer;
+    border-radius: 0 1em;
+}
+
+.commentButton:hover {
+    -webkit-transform: scale(1.05);
+}
+
+.commentButton:active {
+    -webkit-transform: scale(1);
+}
+
+.event h2.btnheadings {
+    position:absolute;
+    bottom:0px;
+    font-size:15px;
+}
+
+.message {
+    overflow: auto;
+    margin: auto;
     position: relative;
-    top: 5%;
     text-align:center;
     font-size: 16px;
 }
-.event .locationHint {
+
+.listPlace {
     position: relative;
-    top: 10%;
-    margin: auto;
+    top: 5%;
     text-align: center;
 }
 
-/*.btnCreate{
-    top: 50%;
-}*/
 .timestamp {
-  text-align:center;
-  font-size:12px;
+    position: relative;
+    top: 5%;
+    text-align:center;
+    font-size:12px;
 }
 
-/*Buttons*/
+/*Gloo View*/
+#closeGloo {
+    width: 5em;
+    height: 5em;
+}
+.glooClose {
+    border-radius: 1em;
+    background: #E25D33;
+    cursor: pointer;
+}
+#gloopad {
+  width:100%;
+  height:100%;
+}
+
+/*Bottom Left Buttons*/
 * { -webkit-font-smoothing:antialiased; -moz-font-smoothing:antialiased; -ms-font-smoothing:antialiased; -o-font-smoothing:antialiased; font-smoothing:antialiased; }
 
 .btnheadings{
@@ -146,6 +201,7 @@ div.wide h2.btnheadings {
 }
 div.wide:hover {
     -webkit-transform: scale(1.05);
+    z-index: 10;
 }
 
 div.wide:active {
@@ -160,9 +216,14 @@ div.wide:active {
     display:block;
     margin: auto;
     float: left;
+    cursor: pointer;
 }
-.orange{background: #E25D33;}
-.black{background: #282827;}
+.orange{
+    background: #E25D33;
+}
+.black{
+    background: #282827;
+}
 
 
 /*NewEvent View*/
@@ -174,6 +235,7 @@ div.wide:active {
 #close {
     width: 1em;
     height: 1em;
+    cursor: pointer;
 }
 
 input[type="text"] {
@@ -240,8 +302,7 @@ form {
   margin-bottom: 20px;
 }
 
-/*Gloopad*/
-#gloopad {
-  width:100%;
-  height:40em;
+/*Major Views*/
+#LISTVIEW, #NEWEVENT, #GLOOPADVIEW {
+    display: none;
 }

@@ -2,6 +2,14 @@ var fs = require('fs');
 var assert = require('assert');
 var process = require('process');
 var zlib = require('zlib');
+var crypto = require('crypto')
+
+
+
+function pad0(n, width)
+{
+    return ('00000000000000000000' + n).slice(-width);
+}
 
 function pages(path, response, data) {
     console.log("Handling 'page' request for " + path + ".");
@@ -63,24 +71,28 @@ function findEvents(response, data, db, ip) {
     }
 
     //query db
-    var cursor = db.collection('events').find(criteria).limit(20).toArray(function(err,docs) {
-        if(err) {
-            response.writeHead(418, {"Content-Type": "application/json"});
-            response.write(JSON.stringify({"Response":"No events"}));
-            response.end();
-        }
-        else {
-            docs.forEach(function(doc) {
-                if(doc["usersGoing"] !== undefined) {
-                    if(doc["usersGoing"].indexOf(ip) !== -1) doc["iAmGoing"] = true;
-                    delete doc["usersGoing"];
-                }
-            });
-            var resText = {"hits": docs};
-            response.writeHead(200, {"Content-Type": "application/json"});
-            response.write(JSON.stringify(resText));
-            response.end();
-        }
+    db.collection('events').aggregate([{$match: criteria},
+                                       {$sort: {"startTime": 1, "going": 1 }}
+                                      ]
+                                     ).limit(20).toArray(function(err,docs) {
+
+                                         if(err) {
+                                             response.writeHead(418, {"Content-Type": "application/json"});
+                                             response.write(JSON.stringify({"Response":"No events"}));
+                                             response.end();
+                                         }
+                                         else {
+                                             docs.forEach(function(doc) {
+                                                 if(doc["usersGoing"] !== undefined) {
+                                                     if(doc["usersGoing"].indexOf(ip) !== -1) doc["iAmGoing"] = true;
+                                                     delete doc["usersGoing"];
+                                                 }
+                                             });
+                                             var resText = {"hits": docs};
+                                             response.writeHead(200, {"Content-Type": "application/json"});
+                                             response.write(JSON.stringify(resText));
+                                             response.end();
+                                         }
     });
 };
 
@@ -92,8 +104,6 @@ function createEvent(response, data, db, ip) {
 
     db.collection('events').find({"title": params["title"]}).toArray(function(err, docs) {
 
-        console.log(docs.length);
-
         if (docs.length > 0) {
             //respond
             response.writeHead(418, {"Content-Type": "application/json"});
@@ -102,6 +112,23 @@ function createEvent(response, data, db, ip) {
         }
 
         else{
+            //generate gloopad id
+            var hash1 = params.startTime.toString();
+            var hash2 = Math.round((1<<32) * Math.abs(params.location.coordinates[0] * params.location.coordinates[1]) /(90*180));
+            var hash = hash1 + hash2.toString();
+            var shasum = crypto.createHash('sha1');
+            shasum.update(hash);
+            hash = shasum.digest('base64');
+            hash = hash.replace(/[+\/]/g, function (ch)
+			{
+				if (ch === '+')
+					return '-';
+				return '_';
+			});
+            hash = hash.substring(0,16);
+            params.gloopad = hash;
+
+            //create query
             db.collection('events').insertOne( params,
                                                function(err, result) {
                                                    if (err) {
@@ -191,12 +218,13 @@ function userIsGoing(response, data, db, ip) {
                                               });
         }
         else{
-            response.writeHead(418, {"Content-Type": "application/json"});
+            response.writeHead(409, {"Content-Type": "application/json"});
             response.write(JSON.stringify({"Response":"You already said you're going."}));
             response.end();
         }
     });
 }
+
 
 exports.media = media;
 exports.going = userIsGoing;

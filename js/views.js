@@ -2,12 +2,14 @@ $(document).ready(function()
                   {
                       $("#btnList").click(function()
                                           {
+                                              $("#MAPVIEW").show();
                                               $("#LISTVIEW").show();
-                                              $("#MAPVIEW").hide();
                                           });
                       $("#btnMap").click(function()
                                          {
                                              $("#MAPVIEW").show();
+                                             $("#btnList").show();
+                                             $(".btnCreate").show();
                                              $("#LISTVIEW").hide();
                                          });
                       $(".btnCreate").click(function()
@@ -18,13 +20,6 @@ $(document).ready(function()
                                                 $(".btnCreate").hide();
                                                 $("#NEWEVENT").show();
                                             });
-                      $(document).on('click', '.event', function()
-                                        {
-                                            $("#gloopad").show();
-                                            $("#MAPVIEW").hide();
-                                            $("#LISTVIEW").hide();
-                                            $("#NEWEVENT").hide();
-                                        });
                       $("#btnBack").click(function()
                                           {
                                               $("#MAPVIEW").show();
@@ -32,4 +27,13 @@ $(document).ready(function()
                                               $(".btnCreate").show();
                                               $("#NEWEVENT").hide();
                                           });
+                      $("#closeGloo").click(function()
+                                            {
+                                                $("#GLOOPADVIEW").hide();
+                                                $("#MAPVIEW").show();
+                                                $("#btnMap").show();
+                                                $(".btnCreate").show();
+                                                $("#NEWEVENT").hide();
+                                                $("#LISTVIEW").show();
+                                            });
                   });

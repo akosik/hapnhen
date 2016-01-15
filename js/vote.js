@@ -1,10 +1,11 @@
 var checkchecker;
 function setupVoting(event_info, checknum) {
     var check = document.getElementById("check" + checknum);
-    check.onmouseenter = function() {
+    var panel = document.getElementById("panel" + checknum);
+    panel.onmouseenter = function() {
         checkchecker = check.checked;
     };
-    check.onclick = function() {
+    panel.onclick = function() {
         if(!checkchecker) {
             $.ajax(
                 {
@@ -15,18 +16,27 @@ function setupVoting(event_info, checknum) {
                     success: function(result,status)
                     {
                         check.checked = true;
-                        var v = document.createAttribute("voted");
-                        v.value = true;
-                        check.setAttributeNode(v);
+                        var numGoing = document.getElementById("numGoing" + checknum).textContent;
+                        var numGoing = Number(numGoing) + 1;
+                        document.getElementById("numGoing" + checknum).textContent = numGoing;
                     },
                     error:  function(jqXHR,textStatus,errorThrown)
                     {
-                        alert("Sorry, we were unable to update your status to 'going'.");
-                        check.checked = false;
+                        if(errorThrown == "Conflict") {
+                            alert("You already said you were going");
+                            check.checked = true;
+                        }
+                        else {
+                            alert("Sorry, we were unable to update your status to 'going'.");
+                            check.checked = false;
+                        }
                     }
                 }
             );
         }
-        else check.checked = true;
+        else {
+            check.checked = true;
+            alert("You already said you were going");
+        }
     };
 }
